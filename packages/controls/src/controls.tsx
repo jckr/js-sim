@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  ControlsContextInterface,
   ControlsComponentInterface,
   CheckboxComponent,
   InputComponent,
@@ -147,4 +148,5 @@ export function hasTimer(controls: ControlsType): Boolean {
   // single object
   return controls.type === 'timer';
 }
-export default withControls<ControlsComponentInterface>(ControlsComponent);
+
+export default withControls<{controls?: ControlsType, horizontally?: boolean}>(ControlsComponent);

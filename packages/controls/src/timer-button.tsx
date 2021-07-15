@@ -1,8 +1,8 @@
 import React from "react";
 import { Button } from "rebass";
-import {withTheme, TimerButtonProps} from '.';
+import {TimerButtonProps} from '.';
 
-function TimerButton(props: TimerButtonProps) {
+export default function TimerButton(props: TimerButtonProps) {
   const {children, onClick, ...otherProps} = props;
   return (
     <Button
@@ -17,5 +17,3 @@ function TimerButton(props: TimerButtonProps) {
     </Button>
   );
 }
-
-export default withTheme<TimerButtonProps>(TimerButton);

@@ -1,5 +1,5 @@
-import React, { createContext } from 'react';
-import { ControlsContextInterface } from './types';
+import React, {createContext} from 'react';
+import {ControlsContextInterface} from '.';
 
 const noop = () => {};
 
@@ -10,10 +10,12 @@ const ControlsContext = createContext<ControlsContextInterface>({
   play: noop,
   setParams: noop,
   stop: noop,
+  tick: 0,
+  updateTime: noop,
 });
 
 interface ControlsProviderProps extends ControlsContextInterface {
-  children: JSX.Element;
+  children?: JSX.Element | JSX.Element[];
 }
 
 export function ControlsProvider(props: ControlsProviderProps) {
@@ -24,6 +26,8 @@ export function ControlsProvider(props: ControlsProviderProps) {
     play = noop,
     setParams = noop,
     stop = noop,
+    tick = 0,
+    updateTime = noop,
   } = props;
 
   return (
@@ -35,6 +39,8 @@ export function ControlsProvider(props: ControlsProviderProps) {
         play,
         setParams,
         stop,
+        tick,
+        updateTime,
       }}
     >
       {props.children}
@@ -42,11 +48,25 @@ export function ControlsProvider(props: ControlsProviderProps) {
   );
 }
 
-export function withControls<P>(Component: React.ComponentType<P>) {
-  function ControlsComponent(props: P & ControlsContextInterface) {
+export const ControlsConsumer: () => JSX.Element = () => {
+  return (<div>
+    <ControlsContext.Consumer>
+    {({isPlaying, params,tick}) => (<pre>
+      <ul>
+        <li>{String(isPlaying)}</li>
+        <li>{JSON.stringify(params)}</li>
+        <li>{tick}</li>
+        </ul>
+        </pre>)}
+  </ControlsContext.Consumer>
+  </div>);
+}
+
+export function withControls<P>(Component: React.ComponentType<P & ControlsContextInterface>) {
+  function ControlsComponent(props: P) {
     return (
       <ControlsContext.Consumer>
-        {({ isPlaying, params, pause, play, setParams, stop }) => (
+        {({isPlaying, params, pause, play, setParams, stop, tick, updateTime}) => (
           <Component
             {...props}
             isPlaying={isPlaying}
@@ -55,6 +75,8 @@ export function withControls<P>(Component: React.ComponentType<P>) {
             play={play}
             setParams={setParams}
             stop={stop}
+            tick={tick}
+            updateTime={updateTime}
           />
         )}
       </ControlsContext.Consumer>
@@ -71,4 +93,3 @@ function getDisplayName(primitive: any) {
     ? primitive
     : primitive?.displayName || primitive?.name || 'Component';
 }
-

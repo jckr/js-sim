@@ -1,8 +1,7 @@
 import React from 'react';
 import type { ComponentType } from 'react';
-import {ThemeContext} from 'styled-components'
 
-export {
+export type {
   OptionProps,
   CheckboxProps,
   InputProps,
@@ -16,21 +15,12 @@ export {
   TimerProps,
   ToggleProps,
   Control,
-  ControlsType
+  ControlsType,
+  ControlsContextInterface,
+  ControlsComponentInterface
 } from './types';
 
-export function withTheme<BaseProps>(BaseComponent: ComponentType<BaseProps>) {
-  return function ThemeComponent(props: BaseProps) {
-    return (
-      <ThemeContext.Consumer>
-        {({ theme }) => <BaseComponent theme={theme} {...props} />}
-      </ThemeContext.Consumer>
-    );
-  };
-}
-
-
-export {ControlsProvider, withControls} from './controls-context';
+export {ControlsProvider, ControlsConsumer, withControls} from './controls-context';
 
 export {CheckboxComponent, default as Checkbox} from './checkbox';
 export {InputComponent, default as Input} from './input';

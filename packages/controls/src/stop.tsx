@@ -3,7 +3,7 @@ import TimerButton from './timer-button';
 import { iconService } from './constants';
 import { withTheme, StopProps } from '.';
 
-export function Stop(props: StopProps) {
+export default function Stop(props: StopProps) {
   const { background = '' } = props;
   const content = props.shouldShowReset ? (
     <img
@@ -20,5 +20,3 @@ export function Stop(props: StopProps) {
   );
   return <TimerButton onClick={props.stop}>{content}</TimerButton>;
 }
-
-export default withTheme<StopProps>(Stop);

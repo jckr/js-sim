@@ -1,10 +1,16 @@
 import { MouseEventHandler } from "react";
-import type {Params} from 'core';
+// import type {Params} from 'core';
 
+export type Param = boolean | number | string | null;
+
+export type Params = {
+  [key: string]: Param
+};
 export type OptionProps = Array<string> | Array<{label: string, value: string}>;
 
 type coreControlProps = {
-  background?: string;
+  background?: string,
+  color?: string,
   label?: string,
   name?: string,
 }
@@ -85,8 +91,6 @@ export interface ToggleProps extends coreControlProps {
 export interface Control extends coreControlProps {
   param: string
   type?: 'checkbox' | 'input' | 'radio' | 'range' | 'select' | 'timer' | 'toggle',
-  value: boolean | number | string,
-  setValue: ((value: boolean) => void) | ((value: number) => void) | ((value: string) => void),
   resetOnchange?: boolean,
 
   isPlaying?: boolean,
@@ -124,6 +128,8 @@ export interface ControlsContextInterface {
   play: () => void,
   setParams: (params: Params) => void,
   stop: () => void,
+  tick: number,
+  updateTime: (tick: number) => void
 }
 
 export type ControlsType = Control | Control[] | ControlsType[];

@@ -3,7 +3,7 @@ import TimerButton from './timer-button';
 import { iconService } from './constants';
 import {PlayProps, withTheme} from '.';
 
-function Play(props: PlayProps) {
+export default function Play(props: PlayProps) {
     const {background = '', isPlaying, pause, play} = props;
     const icon = props.isPlaying ? 'pause' : 'play_arrow';
   const content = (
@@ -19,5 +19,3 @@ function Play(props: PlayProps) {
     </TimerButton>
   );
 }
-
-export default withTheme<PlayProps>(Play);

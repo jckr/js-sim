@@ -9,6 +9,7 @@ import {withControls, TimerProps} from '.';
 export function TimerComponent(props: TimerProps) {
   const {
       background = '',
+      color = 'black',
       isPlaying,
       label = 'Time',
       name = 'Time',
@@ -29,7 +30,7 @@ export function TimerComponent(props: TimerProps) {
     <Flex sx={{ alignItems: 'center', flexDirection: 'row' }}>
       <Play background={background} isPlaying={isPlaying} play={play} pause={pause} />
       <Stop background={background} shouldShowReset={isPlaying === false && value === minTime} stop={stop} />
-      <Step background={background} step={step} />
+      <Step color={color} step={step} />
       {showTime && (
         <RangeComponent
           minValue={minTime}
