@@ -1,4 +1,6 @@
 import React from 'react';
+window.global = window;
+var parcelRequire;
 
 import {
   ControlsContextInterface,

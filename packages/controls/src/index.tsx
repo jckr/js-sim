@@ -20,6 +20,8 @@ export type {
   ControlsComponentInterface
 } from './types';
 
+export {forms} from './constants';
+
 export {ControlsProvider, ControlsConsumer, withControls} from './controls-context';
 
 export {CheckboxComponent, default as Checkbox} from './checkbox';

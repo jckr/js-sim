@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import {ThemeProvider} from 'theme-ui';
+import theme from '@rebass/preset';
 import {
   CheckboxComponent,
   InputComponent,
@@ -11,8 +13,9 @@ import {
   ControlsProvider,
   ControlsConsumer,
   Controls,
+  forms,
 } from '../src';
-
+import {Card} from 'rebass';
 type Param = boolean | number | string | null;
 
 type Params = {
@@ -40,6 +43,18 @@ export const CheckboxExample = () => {
       <h3>Checkbox example</h3>
       <pre>{String(value)}</pre>
       <CheckboxComponent value={value} setValue={setValue} />
+    </div>
+  );
+};
+
+export const ToggleExample = () => {
+  const [value, setValue] = useState(false);
+
+  return (
+    <div>
+      <h3>Checkbox example</h3>
+      <pre>{String(value)}</pre>
+      <ToggleComponent value={value} setValue={setValue} />
     </div>
   );
 };
@@ -162,30 +177,58 @@ export const ControlsWithContextExample = () => {
   };
   const updateParam = (updatedParams: Params) => setParams({...params, ...updatedParams});
 
-
   return (
     <div>
       <div>Controls example</div>
       <pre>{JSON.stringify(params, null, 2)}</pre>
       <pre>{JSON.stringify({tick, isPlaying, lastCommand}, null, 2)}</pre>
-      <ControlsProvider params={params} setParams={updateParam} pause={pause} play={play} stop={stop} tick={tick} updateTime={updateTime} isPlaying={isPlaying} >
-        
-      <Controls 
-        controls={[
-          {
-            param: 'a',
-            type: 'range',
-          },
-          {
-            param: 'b',
-            type: 'range',
-          },
-          { 
-            param: 'timer',
-            type: 'timer'
-          }
-        ]}/>
+      <ControlsProvider
+        params={params}
+        setParams={updateParam}
+        pause={pause}
+        play={play}
+        stop={stop}
+        tick={tick}
+        updateTime={updateTime}
+        isPlaying={isPlaying}
+      >
+        <Controls
+          controls={[
+            {
+              param: 'a',
+              type: 'range',
+            },
+            {
+              param: 'b',
+              type: 'range',
+            },
+            {
+              param: 'timer',
+              type: 'timer',
+            },
+          ]}
+        />
       </ControlsProvider>
     </div>
+  );
+};
+
+export default () => {
+  const themeWithForms = {...theme, ...forms};
+  console.log(theme, themeWithForms);
+  return (
+    <ThemeProvider theme={themeWithForms}>
+      <Card mx='auto' width={800}>
+      <CheckboxExample />
+      <InputExample />
+      <RadioExample />
+      <RangeExample />
+      <SelectExample />
+      <TimerExample />
+      <ToggleExample />
+      <ControlsExample />
+      <ControlsWithContextExample />
+      </Card>
+    </ThemeProvider>
   );
 };

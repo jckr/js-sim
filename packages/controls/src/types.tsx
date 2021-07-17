@@ -9,8 +9,7 @@ export type Params = {
 export type OptionProps = Array<string> | Array<{label: string, value: string}>;
 
 type coreControlProps = {
-  background?: string,
-  color?: string,
+  colors?: {background: string, color: string},
   label?: string,
   name?: string,
 }
@@ -79,6 +78,7 @@ export interface TimerProps extends coreControlProps {
 };
 
 export interface TimerButtonProps {
+  colors: {color: string, background: string},
   children: JSX.Element,
   onClick: MouseEventHandler<HTMLButtonElement>,
 };

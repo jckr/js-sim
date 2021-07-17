@@ -1,22 +1,22 @@
 import React from 'react';
 import TimerButton from './timer-button';
 import { iconService } from './constants';
-import { withTheme, StopProps } from '.';
+import { StopProps } from '.';
 
 export default function Stop(props: StopProps) {
-  const { background = '' } = props;
+  const { colors = {color: '', background: ''}} = props;
   const content = props.shouldShowReset ? (
     <img
-      src={`${iconService}/refresh/${background.replace('#', '')}`}
+      src={`${iconService}/refresh/${colors.color.replace('#', '')}`}
       style={{ transform: 'scaleX(-1)', display: 'block' }}
       alt="reset"
     />
   ) : (
     <img
-      src={`${iconService}/stop/${background.replace('#', '')}`}
+      src={`${iconService}/stop/${colors.color.replace('#', '')}`}
       style={{ display: 'block' }}
       alt="stop"
     />
   );
-  return <TimerButton onClick={props.stop}>{content}</TimerButton>;
+  return <TimerButton colors={colors} onClick={props.stop}>{content}</TimerButton>;
 }
