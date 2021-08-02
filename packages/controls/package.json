@@ -1,10 +1,10 @@
 {
-  "name": "@sim/controls",
+  "name": "@js-sim/controls",
   "author": "jckr",
   "version": "0.1.0",
   "license": "MIT",
   "dependencies": {
-    "@sim/core": "^0.1.0",
+    "@js-sim/core": "^0.1.0",
     "@rebass/forms": "^4.0.6",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",

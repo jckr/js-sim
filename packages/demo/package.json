@@ -1,5 +1,5 @@
 {
-  "name": "@sim/demo",
+  "name": "@js-sim/demo",
   "author": "jckr",
   "version": "0.0.1",
   "license": "MIT",
@@ -59,7 +59,7 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
-    "@sim/core": "^0.1.0"
+    "@js-sim/core": "^0.1.0"
   },
   "gitHead": "74a4c738ae86686126bc7ba13aea9f5a878264b3"
 }

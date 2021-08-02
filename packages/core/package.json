@@ -1,5 +1,5 @@
 {
-  "name": "@sim/core",
+  "name": "@js-sim/core",
   "author": "jckr",
   "version": "0.1.0",
   "license": "MIT",
@@ -59,10 +59,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jckr/sim.git"
+    "url": "git+https://github.com/jckr/js-sim.git"
   },
   "bugs": {
-    "url": "https://github.com/jckr/sim/issues"
+    "url": "https://github.com/jckr/js-sim/issues"
   },
-  "homepage": "https://github.com/jckr/sim#readme"
+  "homepage": "https://github.com/jckr/js-sim#readme"
 }

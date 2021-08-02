@@ -1,5 +1,5 @@
-import Model from '@sim/core';
-import type {Props} from '@sim/core';
+import Model from '@js-sim/core';
+import type {Props} from '@js-sim/core';
 
 export const roundRectangleWithCtx = (
   args: { x: number, y: number, width: number, height: number, r?: number, tl?: number, tr?: number, br?: number, bl?: number },
