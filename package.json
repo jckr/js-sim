@@ -1,5 +1,5 @@
 {
-  "name": "js-sim",
+  "name": "sim",
   "private": true,
   "devDependencies": {
     "lerna": "^4.0.0"

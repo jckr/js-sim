@@ -1,4 +1,6 @@
 {
+  "name": "@js-sim/canvas",
+  "author": "jckr",
   "version": "0.1.2",
   "license": "MIT",
   "main": "dist/index.js",
@@ -30,8 +32,6 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "canvas",
-  "author": "jckr",
   "module": "dist/canvas.esm.js",
   "size-limit": [
     {
@@ -53,5 +53,6 @@
   },
   "dependencies": {
     "@js-sim/core": "^0.1.1"
-  }
+  },
+  "gitHead": "b799082b7941f62489be0e207c92e884b5c3a878"
 }

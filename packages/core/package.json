@@ -1,5 +1,7 @@
 {
-  "version": "0.1.1",
+  "name": "@sim/core",
+  "author": "jckr",
+  "version": "0.1.0",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -30,8 +32,6 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "@js-sim/core",
-  "author": "jckr",
   "module": "dist/core.esm.js",
   "size-limit": [
     {
