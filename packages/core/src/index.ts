@@ -1,32 +1,40 @@
 export type Param = boolean | number | string | null;
 
 export type Params = {
-  [key: string]: Param
+  [key: string]: Param;
 };
 
-export interface State<T> {
+export interface State<T, U> {
   cachedData: { [tick: number]: T };
   canPlay: boolean;
   data: T;
+  initialTick: number;
   isPlaying: boolean | null;
   maxTick: number;
   params: Params;
+  results?: U[];
   tick: number;
   time: DOMHighResTimeStamp | null;
   timer: number | null;
 }
 
-export interface Props<T> {
-  delay: number;
-  initData: (params?: Params) => T;
-  initialParams?: Params;
+interface DefaultProps {
+  delay?: number;
   initialTick?: number;
-  maxTime: number;
-  minTime: number;
-  noCache: boolean;
-  render: (args: RenderData<T>) => void;
-  ticksPerAnimation: number;
-  updateData: (args: UpdateData<T>) => T;
+  maxTime?: number;
+  minTime?: number;
+  noCache?: boolean;
+  ticksPerAnimation?: number;
+}
+
+interface RequiredProps<T, U> {
+  initData: (params?: Params) => T;
+  updateData: (args: UpdateData<T, U>) => T;
+}
+
+export interface Props<T, U> extends RequiredProps<T, U>, DefaultProps {
+  initialParams?: Params;
+  render?: (args: RenderData<T>) => void;
 }
 
 export interface RenderData<T> {
@@ -36,50 +44,40 @@ export interface RenderData<T> {
   params?: Params;
 }
 
-export interface UpdateData<T> extends RenderData<T> {
-  complete: () => void;
+export interface UpdateData<T, U> extends RenderData<T> {
+  complete: (result: U) => void;
   stop: () => void;
   pause: () => void;
 }
 
-export default class Model<T> {
-  props: Props<T>;
-  state: State<T>;
+const defaultProps: DefaultProps = {
+  delay: 0,
+  initialTick: 0,
+  maxTime: 100,
+  minTime: 0,
+  noCache: false,
+  ticksPerAnimation: 1,
+};
 
-  constructor(args: {
-    delay?: number;
-    initialParams?: Params;
-    initData: (params?: Params) => T;
-    initialTick?: number;
-    maxTime?: number;
-    minTime?: number;
-    nocache?: boolean;
-    render?: (args: RenderData<T>) => void;
-    ticksPerAnimation?: number;
-    updateData: (args: UpdateData<T>) => T;
-  }) {
-    this.props = {
-      delay: 0,
-      initialTick: 0,
-      maxTime: 100,
-      minTime: 0,
-      noCache: false,
-      render: () => {},
-      ticksPerAnimation: 1,
-      ...args,
-    };
+export default class Model<T = any, U = any> {
+  props: Props<T, U>;
+  state: State<T, U>;
+
+  constructor(props: Props<T, U>) {
+    this.props = { ...defaultProps, ...props };
     this.state = this.reset();
   }
 
   reset() {
     const params = this.state?.params || this.props.initialParams || {};
     const data = this.props.initData(params);
-    const tick = this.props.initialTick ?? this.props.minTime;
+    const tick = this.props.initialTick ?? this.props.minTime ?? 0;
     return {
       cachedData: this.state?.cachedData || {},
       canPlay: true,
       data,
-      isPlaying: this.state?.isPlaying || null,
+      initialTick: tick,
+      isPlaying: this.state?.isPlaying ?? null,
       maxTick: tick,
       params,
       tick,
@@ -89,7 +87,13 @@ export default class Model<T> {
   }
 
   checkCanPlay(tick: number) {
-    if (this.state.canPlay === false || tick > this.props.maxTime) {
+    const maxTime = this.props.maxTime ?? defaultProps.maxTime;
+    if (maxTime === undefined) {
+      // this can't ever happen as defaultProps.maxTime is defined,
+      // typescript is being unreasonable here
+      throw('maxTime is undefined');
+    }
+    if (this.state.canPlay === false || tick > maxTime) {
       this.state.canPlay = false;
       this.state.isPlaying = false;
       return false;
@@ -98,17 +102,22 @@ export default class Model<T> {
   }
 
   advance(timestamp: DOMHighResTimeStamp = performance.now()) {
-    console.log(this.state.tick);
+    const delay = this.props.delay ?? defaultProps.delay;
+    const ticksPerAnimation = this.props.ticksPerAnimation ?? defaultProps.ticksPerAnimation;
+    if (delay === undefined || ticksPerAnimation === undefined) {
+       // this can't ever happen, see checkCanPlay
+       throw('delay or ticksPerAnimation are undefined');
+    }
     if (this.checkCanPlay(this.state.tick)) {
       if (this.state.time === null) {
         this.state.time = timestamp;
       }
       // if there is a delay specified, we're only going
       // to update the state if we are passed that delay
-      if (timestamp - this.state.time >= this.props.delay) {
+      if (timestamp - this.state.time >= delay) {
         this.state.time = timestamp;
         this.updateToTick({
-          target: this.state.tick + this.props.ticksPerAnimation,
+          target: this.state.tick + ticksPerAnimation,
         });
       }
       // and delay or not, if we can continue looping, we
@@ -138,7 +147,7 @@ export default class Model<T> {
     this.state.data = data;
     // and reset to the initial tick.
     this.state.isPlaying = false;
-    this.state.tick = this.props.initialTick ?? this.props.minTime;
+    this.state.tick = this.state.initialTick;
   }
 
   setParams(updatedParams: Params = {}, resetOnChange: boolean = false) {
@@ -151,8 +160,7 @@ export default class Model<T> {
   stop() {
     this.stopAndCancelTimer();
     this.state.isPlaying = false;
-    this.state.tick = this.props.initialTick ?? this.props.minTime;
-    this.reset();
+    this.state = this.reset();
   }
 
   play() {
@@ -165,19 +173,22 @@ export default class Model<T> {
     this.state.isPlaying = false;
   }
 
-  complete() {
-    // note - in the original implemenation, this collected "results" from the updateData function.
-    // the issue is that results can have any shape. waiting to see what to do with this one.
+  // As a model updates data, it may reach a stopping position.
+  complete(result: U) {
+    this.state.results?.push(result);
     this.state.canPlay = false;
+    this.stop();
   }
 
   render() {
-    this.props.render({
-      cachedData: this.state.cachedData,
-      data: this.state.data,
-      params: this.state.params,
-      tick: this.state.tick,
-    });
+    if (this.props.render) {
+      this.props.render({
+        cachedData: this.state.cachedData,
+        data: this.state.data,
+        params: this.state.params,
+        tick: this.state.tick,
+      });
+    }
   }
 
   setTick(target: number) {

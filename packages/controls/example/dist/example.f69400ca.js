@@ -54423,9 +54423,6 @@ var __assign = void 0 && (void 0).__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-window.global = window;
-var parcelRequire;
-
 var noop = function noop() {};
 
 function ControlsComponent(props) {
@@ -55143,7 +55140,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55818" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63596" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
