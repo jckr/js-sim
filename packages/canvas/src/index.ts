@@ -1,5 +1,5 @@
-import Model from 'core';
-import type {Props} from 'core';
+import Model from '@js-sim/core';
+import type {Props} from '@js-sim/core';
 
 export const roundRectangleWithCtx = (
   args: { x: number, y: number, width: number, height: number, r?: number, tl?: number, tr?: number, br?: number, bl?: number },
@@ -37,18 +37,18 @@ export const circleWithCtx = (args: { x: number, y: number, r: number}, ctx: Can
   ctx.closePath();
 };
 
-type CanvasProps<T> = Props<T> & {
+type CanvasProps<T, U> = Props<T, U> & {
   canvas?: HTMLCanvasElement,
   ctx?: CanvasRenderingContext2D};
 
-export default class CanvasModel<T> extends Model<T> {
+export default class CanvasModel<T = any, U = any> extends Model<T, U> {
   canvasProps: {
     canvas: HTMLCanvasElement,
     ctx: CanvasRenderingContext2D,
     height: number
     width: number,
   }
-  constructor(props: CanvasProps<T>) {
+  constructor(props: CanvasProps<T, U>) {
     super(props);
     let ctx: CanvasRenderingContext2D | null, canvas: HTMLCanvasElement;
     if (props.ctx) {
