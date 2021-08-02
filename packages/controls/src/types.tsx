@@ -1,11 +1,6 @@
 import { MouseEventHandler } from "react";
-// import type {Params} from 'core';
+import type {Params} from '@js-sim/core';
 
-export type Param = boolean | number | string | null;
-
-export type Params = {
-  [key: string]: Param
-};
 export type OptionProps = Array<string> | Array<{label: string, value: string}>;
 
 type coreControlProps = {

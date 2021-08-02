@@ -1,6 +1,3 @@
-import React from 'react';
-import type { ComponentType } from 'react';
-
 export type {
   OptionProps,
   CheckboxProps,
