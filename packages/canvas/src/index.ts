@@ -1,5 +1,5 @@
-import Model from '@js-sim/core';
-import type {Props} from '@js-sim/core';
+import Model from '@sim/core';
+import type {Props} from '@sim/core';
 
 export const roundRectangleWithCtx = (
   args: { x: number, y: number, width: number, height: number, r?: number, tl?: number, tr?: number, br?: number, bl?: number },
@@ -53,6 +53,10 @@ export default class CanvasModel<T = any, U = any> extends Model<T, U> {
     let ctx: CanvasRenderingContext2D | null, canvas: HTMLCanvasElement;
     if (props.ctx) {
       ctx = props.ctx;
+      if (ctx === null) {
+        // cannot happen, but this pleases typescript
+        throw('ctx is null');
+      }
       canvas = ctx.canvas;
     } else {
       if (props.canvas) {

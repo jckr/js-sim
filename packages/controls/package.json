@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "dependencies": {
-    "@js-sim/core": "^0.1.1",
+    "@sim/core": "^0.1.0",
     "@rebass/forms": "^4.0.6",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -51,5 +51,5 @@
     "@types/rebass__forms": "^4.0.5",
     "@types/styled-components": "^5.1.11"
   },
-  "gitHead": "b799082b7941f62489be0e207c92e884b5c3a878"
+  "gitHead": "74a4c738ae86686126bc7ba13aea9f5a878264b3"
 }

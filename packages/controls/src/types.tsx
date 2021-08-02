@@ -1,5 +1,5 @@
 import { MouseEventHandler } from "react";
-import type {Params} from '@js-sim/core';
+import type {Params} from 'sim/core';
 
 export type OptionProps = Array<string> | Array<{label: string, value: string}>;
 

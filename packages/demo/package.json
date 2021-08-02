@@ -59,6 +59,7 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
-    "@js-sim/core": "^0.1.1"
-  }
+    "@sim/core": "^0.1.0"
+  },
+  "gitHead": "74a4c738ae86686126bc7ba13aea9f5a878264b3"
 }
