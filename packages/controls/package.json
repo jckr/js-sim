@@ -1,6 +1,7 @@
 {
-  "name": "@js-sim/controls",
-  "version": "0.1.2",
+  "name": "@sim/controls",
+  "author": "jckr",
+  "version": "0.1.0",
   "dependencies": {
     "@js-sim/core": "^0.1.1",
     "@rebass/forms": "^4.0.6",
@@ -48,5 +49,6 @@
     "@types/rebass": "^4.0.9",
     "@types/rebass__forms": "^4.0.5",
     "@types/styled-components": "^5.1.11"
-  }
+  },
+  "gitHead": "b799082b7941f62489be0e207c92e884b5c3a878"
 }
