@@ -1,6 +1,4 @@
 import React from 'react';
-window.global = window;
-var parcelRequire;
 
 import {
   ControlsContextInterface,
@@ -44,6 +42,7 @@ export function ControlsComponent(props: ControlsComponentInterface) {
     if (!controls) {
         return null;
     }
+    
     // if parameter is an array, we render a series of controls
     if (Array.isArray(controls)) {
         return controls.map((c, i) => (

@@ -30,7 +30,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "core",
+  "name": "@js-sim/core",
   "author": "jckr",
   "module": "dist/core.esm.js",
   "size-limit": [
