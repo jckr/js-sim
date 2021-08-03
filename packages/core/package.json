@@ -64,5 +64,6 @@
   "bugs": {
     "url": "https://github.com/jckr/js-sim/issues"
   },
-  "homepage": "https://github.com/jckr/js-sim#readme"
+  "homepage": "https://github.com/jckr/js-sim#readme",
+  "gitHead": "d795b36efd4db8f7ab60a12473bf6b43ae9596b4"
 }
