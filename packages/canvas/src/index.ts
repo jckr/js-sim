@@ -1,8 +1,52 @@
-import Model from '@js-sim/core';
-import type {Props} from '@js-sim/core';
+import Model /*, {defaultProps} */ from '@js-sim/core';
+import type {Props, RenderData} from '@js-sim/core';
+
+interface RenderCanvas<T> extends RenderData<T> {
+  canvas?: HTMLCanvasElement,
+  ctx?: CanvasRenderingContext2D,
+  roundRectangle?: (args: RoundRectangle) => void,
+  circle?: (args: Circle) => void,
+  height?: number,
+  width?: number
+};
+
+interface RoundRectangle {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  r?: number;
+  tl?: number;
+  tr?: number;
+  bl?: number;
+  br?: number;
+}
+
+interface Circle {
+  x: number;
+  y: number;
+  r: number;
+}
+
+type CanvasProps<T, U> = Props<T, U> & {
+  canvas?: HTMLCanvasElement,
+  ctx?: CanvasRenderingContext2D,
+  height?: number,
+  width?: number,
+  render?: (args: RenderCanvas<T>) => void
+};
+
+const defaultProps = {
+  delay: 0,
+  initialTick: 0,
+  maxTime: 100,
+  minTime: 0,
+  noCache: false,
+  ticksPerAnimation: 1,
+};
 
 export const roundRectangleWithCtx = (
-  args: { x: number, y: number, width: number, height: number, r?: number, tl?: number, tr?: number, br?: number, bl?: number },
+  args: RoundRectangle,
   ctx: CanvasRenderingContext2D
 ) => {
   const r = args.r ?? 1;
@@ -30,51 +74,66 @@ export const roundRectangleWithCtx = (
   ctx.closePath();
 };
 
-export const circleWithCtx = (args: { x: number, y: number, r: number}, ctx: CanvasRenderingContext2D) => {
+export const circleWithCtx = (args: Circle, ctx: CanvasRenderingContext2D) => {
   const {r, x, y} = args;
   ctx.beginPath();
   ctx.arc(x, y, r, 0, Math.PI * 2);
   ctx.closePath();
 };
 
-type CanvasProps<T, U> = Props<T, U> & {
-  canvas?: HTMLCanvasElement,
-  ctx?: CanvasRenderingContext2D};
-
 export default class CanvasModel<T = any, U = any> extends Model<T, U> {
-  canvasProps: {
-    canvas: HTMLCanvasElement,
-    ctx: CanvasRenderingContext2D,
-    height: number
-    width: number,
-  }
+  props: CanvasProps<T, U>;
+  circle: (args: Circle) => void;
+  roundRectangle: (args: RoundRectangle) => void;
+
   constructor(props: CanvasProps<T, U>) {
     super(props);
-    let ctx: CanvasRenderingContext2D | null, canvas: HTMLCanvasElement;
+    let ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement;
     if (props.ctx) {
       ctx = props.ctx;
-      if (ctx === null) {
-        // cannot happen, but this pleases typescript
-        throw('ctx is null');
-      }
       canvas = ctx.canvas;
     } else {
       if (props.canvas) {
         canvas = props.canvas;
-        ctx = canvas.getContext('2d');
-        if (ctx === null) {
-          throw(`couldn't get context from canvas`);
-        }
+        let getContext = canvas.getContext('2d');
+        if(getContext === null) {
+          throw(`couldn't get 2d context from canvas`);
+        };
+        ctx = getContext;
       }
       else {
         throw(`neither ctx nor canvas provided`);
       }
     }
-    this.canvasProps = {
+    if (ctx === null) {
+      throw('ctx is undefined');
+    }
+    this.props = {
+      ...defaultProps,
+      ...props,
       canvas,
       ctx,
       height: canvas.height,
       width: canvas.width
     };
+    console.log(this.props);
+    this.circle = (args: Circle) => circleWithCtx(args, ctx);
+    this.roundRectangle = (args: RoundRectangle) => roundRectangleWithCtx(args, ctx);
+  }
+  render() {
+    if (this.props.render) {
+      this.props.render({
+        cachedData: this.state.cachedData,
+        canvas: this.props.canvas,
+        circle: this.circle,
+        ctx: this.props.ctx,
+        height: this.props.height,
+        data: this.state.data,
+        params: this.state.params,
+        roundRectangle: this.roundRectangle,
+        tick: this.state.tick,
+        width: this.props.width
+      });
+    }
   }
 }
