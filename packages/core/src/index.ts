@@ -50,7 +50,7 @@ export interface UpdateData<T, U> extends RenderData<T> {
   pause: () => void;
 }
 
-const defaultProps: DefaultProps = {
+export const defaultProps: DefaultProps = {
   delay: 0,
   initialTick: 0,
   maxTime: 100,
