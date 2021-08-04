@@ -1,4 +1,4 @@
-import Model /*, {defaultProps} */ from '@js-sim/core';
+import Model, {defaultProps} from '@js-sim/core';
 import type {Props, RenderData} from '@js-sim/core';
 
 interface RenderCanvas<T> extends RenderData<T> {
@@ -34,15 +34,6 @@ type CanvasProps<T, U> = Props<T, U> & {
   height?: number,
   width?: number,
   render?: (args: RenderCanvas<T>) => void
-};
-
-const defaultProps = {
-  delay: 0,
-  initialTick: 0,
-  maxTime: 100,
-  minTime: 0,
-  noCache: false,
-  ticksPerAnimation: 1,
 };
 
 export const roundRectangleWithCtx = (
@@ -113,26 +104,28 @@ export default class CanvasModel<T = any, U = any> extends Model<T, U> {
       ...props,
       canvas,
       ctx,
-      height: canvas.height,
-      width: canvas.width
     };
-    console.log(this.props);
     this.circle = (args: Circle) => circleWithCtx(args, ctx);
     this.roundRectangle = (args: RoundRectangle) => roundRectangleWithCtx(args, ctx);
   }
   render() {
     if (this.props.render) {
       this.props.render({
+        // arguments from the internals of the model
         cachedData: this.state.cachedData,
-        canvas: this.props.canvas,
-        circle: this.circle,
-        ctx: this.props.ctx,
-        height: this.props.height,
         data: this.state.data,
         params: this.state.params,
-        roundRectangle: this.roundRectangle,
         tick: this.state.tick,
-        width: this.props.width
+
+        // canvas specific arguments
+        canvas: this.props.canvas,
+        ctx: this.props.ctx,
+        height: this.props.canvas?.height,
+        width: this.props.canvas?.width,
+
+        // convenience methods
+        circle: this.circle,
+        roundRectangle: this.roundRectangle,
       });
     }
   }
