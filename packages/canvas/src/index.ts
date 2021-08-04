@@ -1,4 +1,4 @@
-import Model, {defaultProps} from '@js-sim/core';
+import Model from '@js-sim/core';
 import type {Props, RenderData} from '@js-sim/core';
 
 interface RenderCanvas<T> extends RenderData<T> {
@@ -9,6 +9,16 @@ interface RenderCanvas<T> extends RenderData<T> {
   height?: number,
   width?: number
 };
+
+const defaultProps: DefaultProps = {
+  delay: 0,
+  initialTick: 0,
+  maxTime: 100,
+  minTime: 0,
+  noCache: false,
+  ticksPerAnimation: 1,
+};
+
 
 interface RoundRectangle {
   x: number;
