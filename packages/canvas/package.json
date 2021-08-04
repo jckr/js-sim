@@ -1,7 +1,7 @@
 {
   "name": "@js-sim/canvas",
   "author": "jckr",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -52,7 +52,7 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
-    "@js-sim/core": "^0.1.0"
+    "@js-sim/core": "^0.1.1"
   },
   "gitHead": "d795b36efd4db8f7ab60a12473bf6b43ae9596b4"
 }
