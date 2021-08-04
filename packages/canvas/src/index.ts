@@ -10,7 +10,7 @@ interface RenderCanvas<T> extends RenderData<T> {
   width?: number
 };
 
-const defaultProps: DefaultProps = {
+const defaultProps = {
   delay: 0,
   initialTick: 0,
   maxTime: 100,
